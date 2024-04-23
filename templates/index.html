@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load humanize %}
+
+{% block meta %}
+<!-- Title Starts Here -->
+<title>{{ cms_title }}</title>
+<meta name="description" content="{{ cms_description }}" />
+<meta name="author" content="{{ cms_author }}" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="{{ cms_title }}" />
+<meta property="og:description" content="{{ cms_description }}" />
+<meta property="og:image" content="https://{{ request.get_host }}{% static 'images/cms_thumbnail.png' %}" />
+<meta property="og:url" content="{{ request.build_absolute_uri }}" />
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="{{ cms_title }}" />
+<meta property="twitter:description" content="{{ cms_description }}" />
+<meta property="twitter:image" content="https://{{ request.get_host }}{% static 'images/cms_thumbnail.png' %}" />
+<meta property="twitter:url" content="{{ request.build_absolute_uri }}" />
+
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block mansonary %}
+
+{% if ads_homepage %}
+<div class="card text-center mb-3 p-3">
+    {{ ads_homepage|safe }}
+</div>
+{% endif %}
+
+{% if featured_posts %}
+<div class="card p-3">
+<div class="row g-2">
+
+    {% for featured_post in featured_posts %}
+
+        {% if forloop.counter == 1 %}
+            <div class="col-lg-5">
+        {% elif forloop.counter == 2%}
+            <div class="col-lg-4">
+        {% else %}
+            <div class="col-lg-3">
+        {% endif%}
+
+        <a href="{% url 'post_detail' featured_post.slug %}">
+            <div class="card img-container">
+                {% if forloop.counter == 1 %}
+                    {% if featured_post.thumbnail %}
+                        {% thumbnail featured_post.thumbnail "420x350" crop="center" as img %}
+                            <img src="{{ img.url }}" class="rounded-2 border">
+                        {% endthumbnail %}
+                    {% else %}
+                        <img src="{% static 'images/blank_post_fslot.png' %}" class="card-img">
+                    {% endif %}
+                {% elif forloop.counter == 2%}
+                    {% if featured_post.thumbnail %}
+                        {% thumbnail featured_post.thumbnail "330x350" crop="center" as img %}
+                            <img src="{{ img.url }}" class="rounded-2 border">
+                        {% endthumbnail %}
+                    {% else %}
+                        <img src="{% static 'images/blank_post_sslot.png' %}" class="card-img">
+                    {% endif %}
+                {% else %}
+                    {% if featured_post.thumbnail %}
+                        {% thumbnail featured_post.thumbnail "250x350" crop="center" as img %}
+                            <img src="{{ img.url }}" class="rounded-2 border">
+                        {% endthumbnail %}
+                    {% else %}
+                        <img src="{% static 'images/blank_post_tslot.png' %}" class="card-img">
+                    {% endif %}
+                {% endif %}
+
+                <div class="card-img-overlay d-flex flex-column">
+                    <div class="mt-auto">
+                        <h2 class="text-white fw-bold card-title" style="text-shadow: 0px 0px 10px #000;">{{ featured_post.title|truncatewords:4 }}</h2>
+                        <p class="text-white card-text"  style="text-shadow: 1px 1px 3px #000;">
+                            <small class="fs-5"><i data-feather="clock"></i> {{ featured_post.created_date|naturaltime }}</small> <br>
+                            <small class="fs-5"><i data-feather="user"></i> {{ featured_post.author.display_name }}</small> <br>
+                            <small class="fs-5"><i data-feather="eye"></i> {{ featured_post.views }} views</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+
+{% block body%}
+
+{% if ads_header %}
+<div class="card text-center mb-3 p-3">
+    {{ ads_header|safe }}
+</div>
+{% endif %}
+
+{% if section_one_cat %}
+<div class="card mb-3 p-3">
+    <p class="text-dark lead fw-bold">Recent in <a href="{{ section_one_cat.get_absolute_url }}">{{ section_one_cat.display }}</a></p>
+    {% include 'includes/post_list.html' with post_list=section_one %}
+</div>
+{% endif %}
+
+{% if ads_belowFirstSection %}
+<div class="card text-center mb-3 p-3">
+    {{ ads_belowFirstSection|safe }}
+</div>
+{% endif %}
+
+{% if section_two_cat %}
+<div class="card mb-3 p-3">
+    <p class="text-dark lead fw-bold">Recent in <a href="{{ section_two_cat.get_absolute_url }}">{{ section_two_cat.display }}</a></p>
+    {% include 'includes/post_list.html' with post_list=section_two %}
+</div>
+{% endif %}
+
+{% if ads_belowSecondSection %}
+<div class="card text-center mb-3 p-3">
+    {{ ads_belowSecondSection|safe }}
+</div>
+{% endif %}
+
+{% if section_three_cat %}
+<div class="card mb-3 p-3">
+    <p class="text-dark lead fw-bold">Recent in <a href="{{ section_three_cat.get_absolute_url }}">{{ section_three_cat.display }}</a></p>
+    {% include 'includes/post_list.html' with post_list=section_three %}
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

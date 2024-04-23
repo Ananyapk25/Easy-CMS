@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load humanize %}
+
+{% block meta %}
+
+<title>All posts{% if search_term %} matching with: '{{ search_term }}'{% endif %}{% if list_term %} under {{ list_type }}: '{{ list_term }}'{% endif %} - {{ cms_title }}</title>
+<meta name="keywords" content="{{ cms_keywords }}" />
+<meta name="description" content="{{ cms_description }}" />
+<meta name="author" content="{{ cms_author }}" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="All posts{% if search_term %} matching with: '{{ search_term }}'{% endif %}{% if list_term %} under {{ list_type }}: '{{ list_term }}'{% endif %} - {{ cms_title }}" />
+<meta property="og:description" content="{{ cms_description }}" />
+<meta property="og:image" content="https://{{ request.get_host }}{% static 'images/cms_thumbnail.png' %}" />
+<meta property="og:url" content="{{ request.build_absolute_uri }}" />
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="All posts{% if search_term %} matching with: '{{ search_term }}'{% endif %}{% if list_term %} under {{ list_type }}: '{{ list_term }}'{% endif %} - {{ cms_title }}" />
+<meta property="twitter:description" content="{{ cms_description }}" />
+<meta property="twitter:image" content="https://{{ request.get_host }}{% static 'images/cms_thumbnail.png' %}" />
+<meta property="twitter:url" content="{{ request.build_absolute_uri }}" />
+
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block mansonary %}
+{% endblock %}
+
+{% block body%}
+
+{% if ads_header %}
+<div class="card text-center mb-3 p-3">
+    {{ ads_header|safe }}
+</div>
+{% endif %}
+
+  <div class="card mb-3 p-3">
+    <p class="text-dark lead">All posts
+      {% if search_term %}
+        matching with <span class="fw-bold">{{ search_term }}</span>
+      {% endif %}
+      {% if list_term %}
+        under {{ list_type }} <span class="fw-bold">{{ list_term }}</span>
+      {% endif %}
+    </p>
+    {% include 'includes/post_list.html' %}
+    <div class="mt-4">
+      {% include 'includes/pagination.html' %}
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

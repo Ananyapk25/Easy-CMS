@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load humanize %}
+
+{% block meta %}
+
+<title>Contact Us - {{ cms_title }}</title>
+<meta name="keywords" content="{{ cms_keywords }}" />
+<meta name="description" content="{{ cms_description }}" />
+<meta name="author" content="{{ cms_author }}" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Contact Us - {{ cms_title }}" />
+<meta property="og:description" content="{{ cms_description }}" />
+<meta property="og:image" content="https://{{ request.get_host }}{% static 'images/cms_thumbnail.png' %}" />
+<meta property="og:url" content="{{ request.build_absolute_uri }}" />
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Contact Us - {{ cms_title }}" />
+<meta property="twitter:description" content="{{ cms_description }}" />
+<meta property="twitter:image" content="https://{{ request.get_host }}{% static 'images/cms_thumbnail.png' %}" />
+<meta property="twitter:url" content="{{ request.build_absolute_uri }}" />
+
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block mansonary %}
+{% endblock %}
+
+{% block body %}
+
+<div class="card mb-3">
+    <div class="text-center card-header bg-white">
+        <h1 class="fw-bold">Contact Us</h1>
+    </div>
+
+    <div class="card-body">
+        <div style="text-align: justify;">
+            <p class="mb-3 lead">
+                Please fill out the form below to send us a message.
+                <form method="post" style="max-width: 400px; margin: 0 auto;">
+                    {% csrf_token %}
+                    {% include 'includes/form.html' %}
+                    <button class="mt-2 btn btn-primary" type="submit">Send Message</button>
+                </form>
+            </p>
+            <hr>
+            <p class="my-3 text-center">
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
+                    class="btn btn-sm btn-primary"><i data-feather="facebook"></i><span
+                        class="d-none d-md-inline d-lg-inline"> Share on
+                        Facebook</span></a>
+                <a href="https://twitter.com/intent/tweet?text={{ page.title }}%0ARead%20Here%3A%20{{ request.build_absolute_uri }}"
+                    class="btn btn-sm btn-info text-white"><i data-feather="twitter"></i><span
+                        class="d-none d-md-inline d-lg-inline"> Tweet on
+                        Twitter</span></a>
+                <a href="mailto:?subject={{ page.title }}&body={{ page.excerpt }}%0ARead%20Here%3A%20{{ request.build_absolute_uri }}"
+                    class="btn btn-sm btn-danger"><i data-feather="mail"></i><span
+                        class="d-none d-md-inline d-lg-inline"> Email</span></a>
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% include 'includes/head.html' %}
+  
+  <title>Page Not Found (Error 404) - {{ cms_title }}</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Are you sure this is the correct url? Requested page cannot be found in this website" />
+  <meta property="og:image" content="https://{{ request.get_host }}{% static 'images/cms_thumbnail.png' %}" />
+  <meta property="twitter:image" content="https://{{ request.get_host }}{% static 'images/cms_thumbnail.png' %}" />
+
+</head>
+
+<body>
+  {% include 'includes/navbar.html' %}
+  <div class="bg-primary pt-10 pb-21"></div>
+  <div class="container mt-n22 px-6">
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show"
+      role="alert">
+      {{ message|safe }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="container mb-3 d-flex flex-column">
+      <div class="row align-items-center justify-content-center g-0">
+        <div class="col-12 col-md-8 col-lg-8 col-xxl-4 py-8 py-xl-0">
+
+          <div class="card py-3 shadow">
+            <div class="text-center">
+                <h1 class="display-4 fw-bold">{{ message }}</h1>
+                <p class="mb-4">Please take a time to report this issue to us.</p>
+                <a href="{% url 'homepage' %}" class="btn btn-primary"><i data-feather="home"></i> Go Home</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center my-6">
+      <div class="mb-4">
+          {% for menu_item in footer_menu %}
+              <a class="text-dark text-primary-hover mx-2" href="{{ menu_item.get_absolute_url }}">{{ menu_item.get_text }}</a>
+              {% if not forloop.last %}
+                  /
+              {% endif %}
+          {% endfor %}
+      </div>
+      {{ cms_copyright}}
+    </div>
+
+  </div>
+
+  {% include 'includes/foot.html' %}
+</body>
+
+</html>
